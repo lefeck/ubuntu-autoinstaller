@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UbuntuAutoInstaller</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/tabs/apt.css">
+    
+    <!-- Vendor: YAML parser -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+
+    <!-- JavaScript Modules -->
+    <script src="/static/js/modules/ui-utils.js"></script>
+    <script src="/static/js/modules/config-manager.js"></script>
+    <script src="/static/js/modules/config-manager-fixes.js"></script>
+    <script src="/static/js/modules/apt-manager.js"></script>
+    <script src="/static/js/modules/storage-manager.js"></script>
+    <script src="/static/js/modules/network-manager.js"></script>
+    <script src="/static/js/modules/network-config-fix.js"></script>
+    <script src="/static/js/modules/iso-generator.js"></script>
+    <script src="/static/js/app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 UbuntuAutoInstaller</h1>
+            <p>Automated ISO Image Generation Tool - Fully Dynamic Configuration</p>
+        </div>
+        
+        <!-- Configuration Management -->
+        <div class="card">
+            <h2>⚙️ Configuration Management</h2>
+            <div class="tabs">
+                <div class="tab active" data-tab="basic">Basic Configuration</div>
+                <div class="tab" data-tab="apt">APT Configuration</div>
+                <div class="tab" data-tab="network">Network Configuration</div>
+                <div class="tab" data-tab="storage">Storage Configuration</div>
+                <div class="tab" data-tab="ssh">SSH Configuration</div>
+                <div class="tab" data-tab="advanced">Advanced Configuration</div>
+            </div>
+            
+            <!-- Basic Configuration -->
+            <div class="tab-content active" id="basic">
+                <!-- Basic configuration content will be loaded from template -->
+            </div>
+            
+            <!-- APT Configuration -->
+            <div class="tab-content" id="apt"></div>
+            
+            <!-- Network Configuration -->
+            <div class="tab-content" id="network"></div>
+            
+            <!-- Storage Configuration -->
+            <div class="tab-content" id="storage"></div>
+            
+            <!-- SSH Configuration -->
+            <div class="tab-content" id="ssh"></div>
+            
+            <!-- Advanced Configuration -->
+            <div class="tab-content" id="advanced"></div>
+            
+            <div style="margin-top: 30px;">
+                <button type="button" class="btn btn-secondary" onclick="loadDefaultConfig()">Load Default Config</button>
+                <button type="button" class="btn btn-secondary" onclick="validateConfig()">Validate Config</button>
+                <button type="button" class="btn btn-success" onclick="previewUserData()" style="background: linear-gradient(135deg, #5cb85c 0%, #4cae4c 100%) !important; color: white !important;">Preview Config</button>
+                <button type="button" class="btn" onclick="generateUserData()">Generate user-data</button>
+            </div>
+        </div>
+        
+        <!-- Configuration Preview -->
+        <div class="card">
+            <h2>👁️ Configuration Preview </h2>
+            <div id="configPreview" class="result" style="display: none;"></div>
+            <div id="configStatus"></div>
+        </div>
+        
+        <!-- Generated user-data -->
+        <div class="card">
+            <h2>📝 Generated user-data</h2>
+            <div id="userdataResult" class="result" style="display: none;"></div>
+            <div id="userdataStatus"></div>
+        </div>
+        
+        <!-- Generate ISO Image -->
+        <div class="card">
+            <h2>🔧 Generate ISO Image</h2>
+            
+            <!-- Source ISO Selection -->
+            <div class="form-group">
+                <label>Source ISO Selection <span class="hint-icon" data-tooltip="Choose local ISO or download from mirror">?</span></label>
+                <div class="source-selection">
+                    <label class="radio-label optional">
+                        <input type="radio" name="sourceType" value="local" checked onchange="toggleSourceType()">
+                        <span>Use Local ISO File</span>
+                    </label>
+                    <label class="radio-label optional">
+                        <input type="radio" name="sourceType" value="download" onchange="toggleSourceType()">
+                        <span>Download from Internet</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Local ISO File Upload -->
+            <div id="localIsoSection" class="form-group">
+                <label class="optional">Upload Local ISO File <span class="hint-icon" data-tooltip="Select a local ISO file from your computer">?</span></label>
+                <div class="file-upload-container">
+                    <input type="file" id="isoFileInput" accept=".iso" onchange="handleFileSelect(this)">
+                    <div class="file-info" id="fileInfo" style="display: none;">
+                        <span class="file-name" id="fileName"></span>
+                        <span class="file-size" id="fileSize"></span>
+                        <button type="button" class="remove-file-btn" onclick="removeSelectedFile()">×</button>
+                    </div>
+                </div>
+                <div id="uploadProgressContainer" style="display:none; margin-top:10px;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div class="progress-bar" style="flex:1;">
+                            <div class="progress-fill" id="uploadProgressFill" style="width:0%;"></div>
+                        </div>
+                        <span id="uploadProgressText" style="min-width:48px; text-align:right; color:#495057;">0%</span>
+                    </div>
+                    <small id="uploadStatusText" class="form-help">Uploading...</small>
+                </div>
+            </div>
+
+            <!-- Download ISO Section -->
+            <div id="downloadIsoSection" class="form-group" style="display: none;">
+                <label class="optional">Ubuntu Release <span class="hint-icon" data-tooltip="Release codename (e.g., focal, jammy, noble)">?</span></label>
+                <select id="codename">
+                    <option value="focal">focal</option>
+                    <option value="jammy" selected>jammy</option>
+                    <option value="noble">noble</option>
+                </select>
+                
+                <div class="form-row" style="margin-top: 15px;">
+                    <div class="form-group">
+                        <label class="optional">GPG Signature Verification</label>
+                        <div class="switch-container">
+                            <label class="switch">
+                                <input type="checkbox" id="gpgVerifyCheckbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span class="switch-label">Verify ISO integrity with GPG signature</span>
+                        </div>
+                        <small class="form-help">When enabled, the ISO is verified with its GPG signature to ensure integrity and authenticity.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- destination ISO Configuration -->
+            <div class="form-group">
+                <label>Destination ISO Name <span class="hint-icon" data-tooltip="Filename for the generated ISO">?</span></label>
+                <input type="text" id="destinationISO" value="custom-ubuntu-22.04-server-amd64.iso" placeholder="custom-ubuntu-22.04-server-amd64.iso" required>
+            </div>
+
+            <!-- Package List -->
+            <div class="form-group">
+                <label class="optional">Additional Packages<span class="hint-icon" data-tooltip="Comma or newline-separated extra packages">?</span></label>
+                <textarea id="packageListTextarea" rows="4" placeholder="Enter package names, Example:&#10;curl&#10;vim&#10;git"></textarea>
+            </div>
+
+            <!-- User Data Configuration -->
+            <div class="form-group">
+                <label>User Data Configuration <span class="hint-icon" data-tooltip="Generated cloud-init user-data YAML">?</span></label>
+                <textarea id="userDataContent" rows="6" placeholder="dynamically generated user-data configuration content..." required></textarea>
+            </div>
+
+            <!-- Advanced Options -->
+            <div class="form-group">
+                <h3>Advanced Options</h3>
+                
+                <div class="form-row" style="margin-top: 15px;">
+                    <div class="form-group">
+                        <label class="optional">HWE Kernel</label>
+                        <div class="switch-container">
+                            <label class="switch">
+                                <input type="checkbox" id="useHWEKernelCheckbox">
+                                <span class="slider"></span>
+                            </label>
+                            <span class="switch-label">Use Hardware Enablement (HWE) Kernel</span>
+                        </div>
+                        <small class="form-help">HWE kernels provide support for newer hardware on older Ubuntu releases.</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="optional">MD5 Checksum</label>
+                        <div class="switch-container">
+                            <label class="switch">
+                                <input type="checkbox" id="md5ChecksumCheckbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span class="switch-label">Update MD5 checksums for modified files</span>
+                        </div>
+                        <small class="form-help">When enabled, MD5 checksums will be updated for modified GRUB files.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generate Button -->
+            <button type="button" id="generateBtn" class="btn" onclick="window.ConfigManager.generateISO()">Generate ISO Image</button>
+
+            <!-- ISO Status -->
+            <div id="isoStatus" class="status" style="display: none;"></div>
+
+            <!-- Build Progress -->
+            <div id="buildProgress" class="build-progress" style="display: none;">
+                <h3>🔄 Build Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="build-steps">
+                    <div class="step" data-step="prepare">📁 Preparing temporary directory</div>
+                    <div class="step" data-step="download">🌎 Downloading ISO</div>
+                    <div class="step" data-step="verify">🔐 Verifying ISO signature</div>
+                    <div class="step" data-step="extract">📦 Extracting ISO</div>
+                    <div class="step" data-step="config">⚙️ Adding configuration data</div>
+                    <div class="step" data-step="packages">📥 Downloading additional packages</div>
+                    <div class="step" data-step="kernel">🔧 Configuring kernel parameters</div>
+                    <div class="step" data-step="repackage">📦 Repackaging ISO image</div>
+                    <div class="step" data-step="complete">🎉 Build completed</div>
+                </div>
+            </div>
+
+            <!-- Build Logs -->
+            <div id="buildLogs" class="build-logs" style="display: none;">
+                <h3>📋 Build Logs</h3>
+                <div class="log-container" id="logContainer">
+                    <!-- Logs will be displayed here -->
+                </div>
+            </div>
+
+            <!-- Download Button -->
+            <div id="downloadSection" class="download-section" style="display: none;">
+                <h3>✅ Build Complete!</h3>
+                <p>Your custom ISO has been generated successfully.</p>
+                <button type="button" id="downloadBtn" class="btn btn-success" onclick="window.ConfigManager.downloadISO()">
+                    📥 Download ISO
+                </button>
+            </div>
+        </div>
+        
+        <!-- API Status -->
+        <div class="card">
+            <h2>📊 API Status</h2>
+            <button id="healthCheck" class="btn">Check Service Status</button>
+            <div id="healthResult" class="result" style="display: none;"></div>
+            <div id="healthStatus"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize application when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, initializing AutoISO...');
+            
+            // Initialize all configurations on page load
+            if (window.ConfigManager && window.ConfigManager.initializeAllConfigs) {
+                console.log('Calling initializeAllConfigs...');
+                window.ConfigManager.initializeAllConfigs();
+            } else {
+                console.error('ConfigManager or initializeAllConfigs not found');
+            }
+        });
+        
+        // Auto-check service status when page loads
+        window.addEventListener('load', function() {
+            console.log('Page fully loaded, auto-checking service status...');
+            try {
+                document.getElementById('healthCheck').click();
+            } catch (error) {
+                console.error('Auto health check failed:', error);
+            }
+        });
+        
+        // Health check functionality
+        document.getElementById('healthCheck').addEventListener('click', async function() {
+            console.log('Health check button clicked');
+            try {
+                const response = await fetch('/health');
+                const result = await response.json();
+                showResult('healthResult', result);
+                showStatus('healthStatus', 'success', 'Service status is normal');
+            } catch (error) {
+                showStatus('healthStatus', 'error', 'Service check failed: ' + error.message);
+            }
+        });
+        
+        function showResult(elementId, data) {
+            const element = document.getElementById(elementId);
+            element.textContent = JSON.stringify(data, null, 2);
+            element.style.display = 'block';
+        }
+        
+        function showStatus(elementId, type, message) {
+            const element = document.getElementById(elementId);
+            if (!element) {
+                console.warn(`showStatus: element #${elementId} not found`);
+                return;
+            }
+            element.className = `status ${type}`;
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

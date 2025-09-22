@@ -1,0 +1,138 @@
+/* APT tab specific styles */
+.apt-repo-config {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #f8f9fa;
+}
+.apt-repo-config .apt-repo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.apt-repo-type { font-weight: 600; color: #495057; }
+.remove-btn { background-color: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+.remove-btn:hover { background-color: #c82333; }
+
+
+/* Beautify disable components (checkbox group) */
+#aptDisableComponents.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px 16px;
+    padding: 12px;
+    border: 1px dashed #e1e5e9;
+    border-radius: 8px;
+    background: #fbfbfd;
+}
+#aptDisableComponents.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+#aptDisableComponents.checkbox-group label:before { display: none !important; content: ""; }
+#aptDisableComponents.checkbox-group label:hover {
+    background: #f8f9ff;
+    border-color: #dfe3ff;
+}
+#aptDisableComponents.checkbox-group input[type="checkbox"] {
+    width: 16px !important;
+    height: 16px !important;
+    display: inline-block !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+}
+
+/* Beautify disable suites (multi-select + tags) */
+/* Suites options mimic components layout */
+#aptDisableSuitesOptions.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px 16px;
+    padding: 12px;
+    border: 1px dashed #e1e5e9;
+    border-radius: 8px;
+    background: #fbfbfd;
+}
+#aptDisableSuitesOptions.checkbox-group label { 
+    display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #fff; border: 1px solid #e9ecef; border-radius: 6px; cursor: pointer; transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+#aptDisableSuitesOptions.checkbox-group label:hover { background: #f8f9ff; border-color: #dfe3ff; }
+#aptDisableSuitesOptions.checkbox-group input[type="checkbox"] { width: 16px !important; height: 16px !important; display: inline-block !important; flex: 0 0 auto !important; margin: 0 !important; }
+#aptDisableSuitesOptions.checkbox-group label:before { display: none !important; content: ""; }
+
+/* Custom input and Add button styling */
+#aptDisableSuitesInput {
+    width: 200px;
+    display: inline-block;
+    margin-right: 8px;
+    padding: 8px 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+#aptDisableSuitesInput + .add-item-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    margin: 0;
+}
+
+#aptDisableSuitesTags.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px;
+    min-height: 42px;
+    border: 1px dashed #e1e5e9;
+    border-radius: 8px;
+    background: #fbfbfd;
+}
+
+.tag-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: #eef2ff;
+    color: #3949ab;
+    border: 1px solid #cdd5ff;
+    border-radius: 999px;
+    font-size: 12px;
+}
+.tag-item .remove-btn {
+    background: transparent;
+    color: #6c757d;
+    padding: 0 6px;
+    border-radius: 50%;
+    border: none;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+}
+.tag-item .remove-btn:hover {
+    background: #e0e7ff;
+    color: #3949ab;
+}
+
+/* Make two columns align nicely inside suites row */
+.form-row > .form-group select#aptDisableSuitesSelect {
+    align-self: start;
+}
+.form-row > .form-group:has(#aptDisableSuitesInput) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Remove required star for Disable Components AND each option label */
+.form-group:has(#aptDisableComponents) > label:before,
+#aptDisableComponents.checkbox-group label:before {
+    display: none !important;
+    content: "";
+}
+

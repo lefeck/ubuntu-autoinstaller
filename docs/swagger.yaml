@@ -1,0 +1,1132 @@
+definitions:
+  api.GenerateISORequest:
+    properties:
+      apps:
+        description: local build Application packages
+        type: string
+      codeName:
+        description: Ubuntu release name (when sourceType is "download")
+        type: string
+      destinationISO:
+        description: Output ISO file path
+        type: string
+      gpgVerify:
+        description: Whether to perform GPG verification
+        type: boolean
+      md5Checksum:
+        description: Whether to update MD5 checksum
+        type: boolean
+      packageList:
+        description: Additional package list
+        items:
+          type: string
+        type: array
+      sourceISO:
+        description: Local ISO file path (when sourceType is "local")
+        type: string
+      sourceType:
+        description: '"local" or "download"'
+        type: string
+      useHWEKernel:
+        description: Whether to use HWE kernel
+        type: boolean
+      userData:
+        description: user-data configuration content
+        type: string
+    required:
+    - sourceType
+    - userData
+    type: object
+  config.AptConfig:
+    properties:
+      disable_components:
+        items:
+          type: string
+        type: array
+      disable_suites:
+        items:
+          type: string
+        type: array
+      geoip:
+        type: boolean
+      preserve_sources_list:
+        type: boolean
+      primary:
+        items:
+          $ref: '#/definitions/config.PrimaryEntry'
+        type: array
+    type: object
+  config.Autoinstall:
+    properties:
+      apt:
+        $ref: '#/definitions/config.AptConfig'
+      drivers:
+        $ref: '#/definitions/config.DriversConfig'
+      early-commands:
+        items:
+          type: string
+        type: array
+      identity:
+        $ref: '#/definitions/config.Identity'
+      kernel:
+        $ref: '#/definitions/config.KernelConfig'
+      keyboard:
+        $ref: '#/definitions/config.KeyboardConfig'
+      late-commands:
+        items:
+          type: string
+        type: array
+      locale:
+        type: string
+      network:
+        $ref: '#/definitions/config.NetworkConfig'
+      packages:
+        items:
+          type: string
+        type: array
+      shutdown:
+        type: string
+      ssh:
+        $ref: '#/definitions/config.SSHConfig'
+      storage:
+        $ref: '#/definitions/config.Storage'
+      timezone:
+        type: string
+      updates:
+        type: string
+      user-data:
+        additionalProperties: true
+        type: object
+      version:
+        type: integer
+    type: object
+  config.Bond:
+    properties:
+      addresses:
+        description: e.g., 192.168.1.10/24
+        items:
+          type: string
+        type: array
+      critical:
+        type: boolean
+      dhcp4:
+        type: boolean
+      dhcp6:
+        type: boolean
+      interfaces:
+        items:
+          type: string
+        type: array
+      link-local:
+        description: e.g., ["ipv4", "ipv6", "off"]
+        items:
+          type: string
+        type: array
+      macaddress:
+        type: string
+      match:
+        $ref: '#/definitions/config.Match'
+      mtu:
+        type: integer
+      nameservers:
+        $ref: '#/definitions/config.Nameservers'
+      optional:
+        type: boolean
+      parameters:
+        $ref: '#/definitions/config.BondParams'
+      routes:
+        description: policy routes
+        items:
+          $ref: '#/definitions/config.Route'
+        type: array
+      routing-policy:
+        description: policy routing rules
+        items:
+          $ref: '#/definitions/config.RoutingPolicy'
+        type: array
+      wakeonlan:
+        type: boolean
+    type: object
+  config.BondParams:
+    properties:
+      gratuitous-arp:
+        type: integer
+      lacp-rate:
+        description: fast/slow
+        type: string
+      mii-monitor-interval:
+        type: integer
+      min-links:
+        type: integer
+      mode:
+        description: active-backup, balance-rr, 802.3ad...
+        type: string
+      primary:
+        type: string
+      transmit-hash-policy:
+        type: string
+    type: object
+  config.Bridge:
+    properties:
+      addresses:
+        description: e.g., 192.168.1.10/24
+        items:
+          type: string
+        type: array
+      critical:
+        type: boolean
+      dhcp4:
+        type: boolean
+      dhcp6:
+        type: boolean
+      interfaces:
+        items:
+          type: string
+        type: array
+      link-local:
+        description: e.g., ["ipv4", "ipv6", "off"]
+        items:
+          type: string
+        type: array
+      macaddress:
+        type: string
+      match:
+        $ref: '#/definitions/config.Match'
+      mtu:
+        type: integer
+      nameservers:
+        $ref: '#/definitions/config.Nameservers'
+      optional:
+        type: boolean
+      parameters:
+        $ref: '#/definitions/config.BridgeParams'
+      routes:
+        description: policy routes
+        items:
+          $ref: '#/definitions/config.Route'
+        type: array
+      routing-policy:
+        description: policy routing rules
+        items:
+          $ref: '#/definitions/config.RoutingPolicy'
+        type: array
+      wakeonlan:
+        type: boolean
+    type: object
+  config.BridgeParams:
+    properties:
+      ageing-time:
+        type: integer
+      forward-delay:
+        type: integer
+      priority:
+        type: integer
+      stp:
+        type: boolean
+    type: object
+  config.Config:
+    properties:
+      autoinstall:
+        $ref: '#/definitions/config.Autoinstall'
+    type: object
+  config.DiskMatch:
+    properties:
+      firmware_version:
+        type: string
+      model:
+        description: Disk model string (e.g., Samsung SSD 860)
+        type: string
+      name:
+        description: e.g. "sda"
+        type: string
+      path:
+        description: /dev/disk/by-path/...
+        type: string
+      serial:
+        description: serial number
+        type: string
+      size:
+        description: e.g. "largest", "smallest", "100G"
+        type: string
+      wwn:
+        description: World Wide Name
+        type: string
+    type: object
+  config.DriversConfig:
+    properties:
+      install:
+        type: boolean
+    type: object
+  config.DummyDevice:
+    properties:
+      addresses:
+        description: e.g., 192.168.1.10/24
+        items:
+          type: string
+        type: array
+      critical:
+        type: boolean
+      dhcp4:
+        type: boolean
+      dhcp6:
+        type: boolean
+      link-local:
+        description: e.g., ["ipv4", "ipv6", "off"]
+        items:
+          type: string
+        type: array
+      macaddress:
+        type: string
+      match:
+        $ref: '#/definitions/config.Match'
+      mtu:
+        type: integer
+      nameservers:
+        $ref: '#/definitions/config.Nameservers'
+      optional:
+        type: boolean
+      routes:
+        description: policy routes
+        items:
+          $ref: '#/definitions/config.Route'
+        type: array
+      routing-policy:
+        description: policy routing rules
+        items:
+          $ref: '#/definitions/config.RoutingPolicy'
+        type: array
+      wakeonlan:
+        type: boolean
+    type: object
+  config.Ethernet:
+    properties:
+      addresses:
+        description: e.g., 192.168.1.10/24
+        items:
+          type: string
+        type: array
+      critical:
+        type: boolean
+      dhcp4:
+        type: boolean
+      dhcp6:
+        type: boolean
+      link-local:
+        description: e.g., ["ipv4", "ipv6", "off"]
+        items:
+          type: string
+        type: array
+      macaddress:
+        type: string
+      match:
+        $ref: '#/definitions/config.Match'
+      mtu:
+        type: integer
+      nameservers:
+        $ref: '#/definitions/config.Nameservers'
+      optional:
+        type: boolean
+      routes:
+        description: policy routes
+        items:
+          $ref: '#/definitions/config.Route'
+        type: array
+      routing-policy:
+        description: policy routing rules
+        items:
+          $ref: '#/definitions/config.RoutingPolicy'
+        type: array
+      wakeonlan:
+        type: boolean
+    type: object
+  config.GrubConfig:
+    properties:
+      reorder_uefi:
+        type: boolean
+    type: object
+  config.Identity:
+    properties:
+      hostname:
+        type: string
+      password:
+        type: string
+      realname:
+        type: string
+      username:
+        type: string
+    type: object
+  config.KernelConfig:
+    properties:
+      package:
+        type: string
+    type: object
+  config.KeyboardConfig:
+    properties:
+      layout:
+        type: string
+      toggle:
+        type: string
+      variant:
+        type: string
+    type: object
+  config.Match:
+    properties:
+      driver:
+        type: string
+      macaddress:
+        type: string
+      name:
+        description: glob supported, e.g., "en*"
+        type: string
+    type: object
+  config.Modem:
+    properties:
+      addresses:
+        description: e.g., 192.168.1.10/24
+        items:
+          type: string
+        type: array
+      apn:
+        type: string
+      critical:
+        type: boolean
+      dhcp4:
+        type: boolean
+      dhcp6:
+        type: boolean
+      link-local:
+        description: e.g., ["ipv4", "ipv6", "off"]
+        items:
+          type: string
+        type: array
+      macaddress:
+        type: string
+      match:
+        $ref: '#/definitions/config.Match'
+      mtu:
+        type: integer
+      nameservers:
+        $ref: '#/definitions/config.Nameservers'
+      optional:
+        type: boolean
+      pin:
+        type: string
+      routes:
+        description: policy routes
+        items:
+          $ref: '#/definitions/config.Route'
+        type: array
+      routing-policy:
+        description: policy routing rules
+        items:
+          $ref: '#/definitions/config.RoutingPolicy'
+        type: array
+      wakeonlan:
+        type: boolean
+    type: object
+  config.NMDevice:
+    properties:
+      device:
+        type: string
+      name:
+        type: string
+      passthrough:
+        additionalProperties: true
+        type: object
+      uuid:
+        type: string
+    type: object
+  config.Nameservers:
+    properties:
+      addresses:
+        items:
+          type: string
+        type: array
+      options:
+        additionalProperties:
+          type: string
+        type: object
+      search:
+        items:
+          type: string
+        type: array
+    type: object
+  config.NetworkConfig:
+    properties:
+      bonds:
+        additionalProperties:
+          $ref: '#/definitions/config.Bond'
+        type: object
+      bridges:
+        additionalProperties:
+          $ref: '#/definitions/config.Bridge'
+        type: object
+      dummy-devices:
+        additionalProperties:
+          $ref: '#/definitions/config.DummyDevice'
+        type: object
+      ethernets:
+        additionalProperties:
+          $ref: '#/definitions/config.Ethernet'
+        type: object
+      modems:
+        additionalProperties:
+          $ref: '#/definitions/config.Modem'
+        type: object
+      nm-devices:
+        additionalProperties:
+          $ref: '#/definitions/config.NMDevice'
+        type: object
+      renderer:
+        description: network-renderer (e.g., "networkd", "NetworkManager")
+        type: string
+      tunnels:
+        additionalProperties:
+          $ref: '#/definitions/config.Tunnel'
+        type: object
+      version:
+        type: integer
+      vlans:
+        additionalProperties:
+          $ref: '#/definitions/config.VLAN'
+        type: object
+      vrfs:
+        additionalProperties:
+          $ref: '#/definitions/config.VRF'
+        type: object
+      wifis:
+        additionalProperties:
+          $ref: '#/definitions/config.Wifi'
+        type: object
+    type: object
+  config.PrimaryEntry:
+    properties:
+      arches:
+        items:
+          type: string
+        type: array
+      uri:
+        type: string
+    type: object
+  config.Route:
+    properties:
+      from:
+        description: source prefix
+        type: string
+      metric:
+        type: integer
+      mtu:
+        type: integer
+      on-link:
+        type: boolean
+      table:
+        type: integer
+      to:
+        description: destination CIDR, or "default"
+        type: string
+      type:
+        description: e.g., "unicast" (rarely needed)
+        type: string
+      via:
+        description: next-hop
+        type: string
+    type: object
+  config.RoutingPolicy:
+    properties:
+      from:
+        type: string
+      fwmark:
+        type: integer
+      priority:
+        type: integer
+      table:
+        type: integer
+      to:
+        type: string
+    type: object
+  config.SSHConfig:
+    properties:
+      allow-pw:
+        type: boolean
+      authorized-keys:
+        items:
+          type: string
+        type: array
+      install-server:
+        type: boolean
+    type: object
+  config.Storage:
+    properties:
+      config:
+        items:
+          $ref: '#/definitions/config.StorageConfig'
+        type: array
+      grub:
+        $ref: '#/definitions/config.GrubConfig'
+      swap:
+        $ref: '#/definitions/config.SwapConfig'
+    type: object
+  config.StorageConfig:
+    properties:
+      device:
+        type: string
+      devices:
+        items:
+          type: string
+        type: array
+      dm_name:
+        description: For dm_crypt encryption
+        type: string
+      flag:
+        type: string
+      fstype:
+        description: e.g. "ext4", "btrfs", "xfs"
+        type: string
+      grub_device:
+        type: boolean
+      id:
+        type: string
+      key:
+        description: For dm_crypt encryption
+        type: string
+      keyfile:
+        description: For dm_crypt encryption
+        type: string
+      match:
+        $ref: '#/definitions/config.DiskMatch'
+      name:
+        type: string
+      number:
+        type: integer
+      path:
+        type: string
+      preserve:
+        type: boolean
+      ptable:
+        type: string
+      size:
+        type: integer
+      type:
+        type: string
+      volgroup:
+        type: string
+      volume:
+        type: string
+      wipe:
+        description: 'Supported: superblock, superblock-recursive, pvremove, zero,
+          random'
+        type: string
+    type: object
+  config.SwapConfig:
+    properties:
+      swap:
+        type: integer
+    type: object
+  config.Tunnel:
+    properties:
+      addresses:
+        description: e.g., 192.168.1.10/24
+        items:
+          type: string
+        type: array
+      critical:
+        type: boolean
+      dhcp4:
+        type: boolean
+      dhcp6:
+        type: boolean
+      key:
+        description: GRE key, optional
+        type: integer
+      link-local:
+        description: e.g., ["ipv4", "ipv6", "off"]
+        items:
+          type: string
+        type: array
+      local:
+        type: string
+      macaddress:
+        type: string
+      match:
+        $ref: '#/definitions/config.Match'
+      mode:
+        description: gre, ipip, sit, gretap, etc.
+        type: string
+      mtu:
+        type: integer
+      nameservers:
+        $ref: '#/definitions/config.Nameservers'
+      optional:
+        type: boolean
+      port:
+        description: if applicable
+        type: integer
+      remote:
+        type: string
+      routes:
+        description: policy routes
+        items:
+          $ref: '#/definitions/config.Route'
+        type: array
+      routing-policy:
+        description: policy routing rules
+        items:
+          $ref: '#/definitions/config.RoutingPolicy'
+        type: array
+      ttl:
+        type: integer
+      wakeonlan:
+        type: boolean
+    type: object
+  config.VLAN:
+    properties:
+      addresses:
+        description: e.g., 192.168.1.10/24
+        items:
+          type: string
+        type: array
+      critical:
+        type: boolean
+      dhcp4:
+        type: boolean
+      dhcp6:
+        type: boolean
+      id:
+        type: integer
+      link:
+        description: parent interface
+        type: string
+      link-local:
+        description: e.g., ["ipv4", "ipv6", "off"]
+        items:
+          type: string
+        type: array
+      macaddress:
+        type: string
+      match:
+        $ref: '#/definitions/config.Match'
+      mtu:
+        type: integer
+      nameservers:
+        $ref: '#/definitions/config.Nameservers'
+      optional:
+        type: boolean
+      routes:
+        description: policy routes
+        items:
+          $ref: '#/definitions/config.Route'
+        type: array
+      routing-policy:
+        description: policy routing rules
+        items:
+          $ref: '#/definitions/config.RoutingPolicy'
+        type: array
+      wakeonlan:
+        type: boolean
+    type: object
+  config.VRF:
+    properties:
+      interfaces:
+        items:
+          type: string
+        type: array
+      routes:
+        items:
+          $ref: '#/definitions/config.Route'
+        type: array
+      routing-policy:
+        description: Policy routing specific to this VRF
+        items:
+          $ref: '#/definitions/config.RoutingPolicy'
+        type: array
+      table:
+        type: integer
+    type: object
+  config.Wifi:
+    properties:
+      access-points:
+        additionalProperties:
+          $ref: '#/definitions/config.WifiAP'
+        type: object
+      addresses:
+        description: e.g., 192.168.1.10/24
+        items:
+          type: string
+        type: array
+      critical:
+        type: boolean
+      dhcp4:
+        type: boolean
+      dhcp6:
+        type: boolean
+      link-local:
+        description: e.g., ["ipv4", "ipv6", "off"]
+        items:
+          type: string
+        type: array
+      macaddress:
+        type: string
+      match:
+        $ref: '#/definitions/config.Match'
+      mtu:
+        type: integer
+      nameservers:
+        $ref: '#/definitions/config.Nameservers'
+      optional:
+        type: boolean
+      routes:
+        description: policy routes
+        items:
+          $ref: '#/definitions/config.Route'
+        type: array
+      routing-policy:
+        description: policy routing rules
+        items:
+          $ref: '#/definitions/config.RoutingPolicy'
+        type: array
+      wakeonlan:
+        type: boolean
+    type: object
+  config.WifiAP:
+    properties:
+      auth:
+        description: backend-specific, rarely used
+        type: string
+      band:
+        description: e.g., "2.4GHz", "5GHz"
+        type: string
+      bssid:
+        description: AP MAC, optional
+        type: string
+      channel:
+        type: integer
+      client-auth:
+        description: tls/wpa-enterprise etc. (simplified)
+        type: string
+      hidden:
+        type: boolean
+      mode:
+        description: e.g., "infrastructure"
+        type: string
+      password:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /config/default:
+    get:
+      description: Get the default configuration template
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Default config retrieved successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Failed to generate default config
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get default configuration
+      tags:
+      - config
+  /config/load:
+    post:
+      consumes:
+      - application/json
+      description: Load and validate a configuration from YAML data
+      parameters:
+      - description: YAML data
+        in: body
+        name: request
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Config loaded successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request parameters or YAML parsing failed
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Load configuration from YAML
+      tags:
+      - config
+  /config/validate:
+    post:
+      consumes:
+      - application/json
+      description: Validate a configuration object
+      parameters:
+      - description: Configuration object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/config.Config'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Config validation passed
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Config validation failed
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Validate configuration
+      tags:
+      - config
+  /download/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Download the ISO file associated with a completed build task
+      parameters:
+      - description: Build ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: Returns the ISO file for download
+          schema:
+            type: file
+        "400":
+          description: Invalid request or build not completed
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Build ID not found or ISO file missing
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Download generated ISO
+      tags:
+      - ISO
+  /health:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Health
+      tags:
+      - healthz
+  /iso/build/{id}/logs:
+    get:
+      description: Get the logs of an ISO build process
+      parameters:
+      - description: Build ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Build logs retrieved successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Build ID cannot be empty
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Build ID does not exist
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get build logs
+      tags:
+      - iso
+  /iso/build/{id}/status:
+    get:
+      description: Get the status of an ISO build process
+      parameters:
+      - description: Build ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Build status retrieved successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Build ID cannot be empty
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Build ID does not exist
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get build status
+      tags:
+      - iso
+  /iso/generate:
+    post:
+      consumes:
+      - application/json
+      description: Generate a new ISO image with the provided configuration
+      parameters:
+      - description: ISO generation request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/api.GenerateISORequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ISO generation started
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request parameters
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Failed to start ISO generation
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Generate ISO image
+      tags:
+      - iso
+  /iso/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload an ISO file to the server
+      parameters:
+      - description: ISO file to upload
+        in: formData
+        name: iso
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ISO file uploaded successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Failed to upload ISO file
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Upload ISO file
+      tags:
+      - iso
+  /userdata/generate:
+    post:
+      consumes:
+      - application/json
+      description: Generate a user-data configuration file based on provided config
+      parameters:
+      - description: Configuration object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/config.Config'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User-data generated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request parameters
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Failed to generate user-data
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Generate user-data configuration
+      tags:
+      - user-data
+  /userdata/preview:
+    post:
+      consumes:
+      - application/json
+      description: Preview the user-data configuration that would be generated from
+        a config object
+      parameters:
+      - description: Configuration object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/config.Config'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User-data preview generated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request parameters
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Failed to generate user-data preview
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Preview user-data configuration
+      tags:
+      - user-data
+swagger: "2.0"

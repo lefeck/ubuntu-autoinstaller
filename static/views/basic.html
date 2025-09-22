@@ -1,0 +1,140 @@
+<div class="form-group">
+    <div class="form-row">
+        <div class="form-group">
+            <label>Username <span class="hint-icon" data-tooltip="System username for login (e.g. ubuntu)">?</span></label>
+            <input type="text" id="username" value="ubuntu" required>
+        </div>
+        <div class="form-group">
+            <label>Password <span class="hint-icon" data-tooltip="This is a hashed password, not plain text">?</span></label>
+            <input type="password" id="password" placeholder="********" value="ubuntu123" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label>Hostname <span class="hint-icon" data-tooltip="System hostname (e.g. ubuntu-server)">?</span></label>
+            <input type="text" id="hostname" value="ubuntu-server" required>
+        </div>
+        <div class="form-group">
+            <label class="optional">RealName <span class="hint-icon" data-tooltip="The full display name of the user (e.g. ubuntu)">?</span></label>
+            <input type="text" id="realname" value="ubuntu">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label class="optional">Locale <span class="hint-icon" data-tooltip="System language and encoding (e.g. en_US.UTF-8)">?</span></label>
+            <select id="locale">
+                <option value="en_US.UTF-8">English (US)</option>
+                <option value="zh_CN.UTF-8">Chinese (Simplified)</option>
+                <option value="ja_JP.UTF-8">Japanese</option>
+                <option value="de_DE.UTF-8">German</option>
+                <option value="fr_FR.UTF-8">French</option>
+                <option value="es_ES.UTF-8">Spanish</option>
+                <option value="it_IT.UTF-8">Italian</option>
+                <option value="pt_PT.UTF-8">Portuguese (Portugal)</option>
+                <option value="ru_RU.UTF-8">Russian</option>
+                <option value="ko_KR.UTF-8">Korean</option>
+                <option value="sv_SE.UTF-8">Swedish</option>
+                <option value="pl_PL.UTF-8">Polish</option>
+                <option value="fi_FI.UTF-8">Finnish</option>
+                <option value="no_NO.UTF-8">Norwegian</option>
+                <option value="tr_TR.UTF-8">Turkish</option>
+                <option value="cs_CZ.UTF-8">Czech</option>
+                <option value="nl_NL.UTF-8">Dutch</option>
+                <option value="ar_SA.UTF-8">Arabic</option>
+                <option value="el_GR.UTF-8">Greek</option>
+                <option value="hi_IN.UTF-8">Hindi</option>
+                <option value="th_TH.UTF-8">Thai</option>
+                <option value="vi_VN.UTF-8">Vietnamese</option>
+                <option value="pt_BR.UTF-8">Portuguese (Brazil)</option>
+                <option value="uk_UA.UTF-8">Ukrainian</option>
+                <option value="zh_TW.UTF-8">Chinese (Traditional)</option>
+                <option value="he_IL.UTF-8">Hebrew</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="optional">Keyboard Layout <span class="hint-icon" data-tooltip="Keyboard layout (e.g. us)">?</span></label>
+            <select id="keyboard">
+                <option value="us">US</option>
+                <option value="cn">Chinese</option>
+                <option value="jp">Japanese</option>
+                <option value="de">German</option>
+                <option value="fr">French</option>
+                <option value="es">Spanish</option>
+                <option value="it">Italian</option>
+                <option value="pt">Portuguese</option>
+                <option value="ru">Russian</option>
+                <option value="kr">Korean</option>
+                <option value="se">Swedish</option>
+                <option value="pl">Polish</option>
+                <option value="fi">Finnish</option>
+                <option value="no">Norwegian</option>
+                <option value="tr">Turkish</option>
+                <option value="cz">Czech</option>
+                <option value="nl">Dutch</option>
+                <option value="ar">Arabic</option>
+                <option value="gr">Greek</option>
+                <option value="in">Indian</option>
+                <option value="th">Thai</option>
+                <option value="vi">Vietnamese</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label class="optional">Timezone <span class="hint-icon" data-tooltip="System timezone (e.g. Asia/Shanghai, America/New_York)">?</span></label>
+            <select id="timezone">
+                <option value="Etc/UTC">Etc/UTC</option>
+                <option value="Asia/Shanghai" selected>Asia/Shanghai</option>
+                <option value="Asia/Tokyo">Asia/Tokyo</option>
+                <option value="Asia/Seoul">Asia/Seoul</option>
+                <option value="Asia/Singapore">Asia/Singapore</option>
+                <option value="Asia/Hong_Kong">Asia/Hong_Kong</option>
+                <option value="Asia/Bangkok">Asia/Bangkok</option>
+                <option value="Asia/Kolkata">Asia/Kolkata</option>
+                <option value="Europe/London">Europe/London</option>
+                <option value="Europe/Paris">Europe/Paris</option>
+                <option value="Europe/Berlin">Europe/Berlin</option>
+                <option value="Europe/Moscow">Europe/Moscow</option>
+                <option value="America/New_York">America/New_York</option>
+                <option value="America/Chicago">America/Chicago</option>
+                <option value="America/Denver">America/Denver</option>
+                <option value="America/Los_Angeles">America/Los_Angeles</option>
+                <option value="Australia/Sydney">Australia/Sydney</option>
+                <option value="Australia/Perth">Australia/Perth</option>
+                <option value="Pacific/Auckland">Pacific/Auckland</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="optional">Kernel Package <span class="hint-icon" data-tooltip="Linux kernel package variant (e.g. linux-generic)">?</span></label>
+            <input type="text" id="kernel" value="linux-generic">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label class="optional">Update Policy <span class="hint-icon" data-tooltip="How updates should be applied during install (default security)">?</span></label>
+            <select id="updates">
+                <option value="security">Security Updates</option>
+                <option value="all">All Updates</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="optional">Shutdown Behavior <span class="hint-icon" data-tooltip="What to do after installation finishes (default reboot)">?</span></label>
+            <select id="shutdown">
+                <option value="reboot" selected>Reboot</option>
+                <option value="poweroff">Power Off</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label class="optional">Install Drivers <span class="hint-icon" data-tooltip="Install third-party drivers if needed (default false)">?</span></label>
+            <select id="drivers">
+                <option value="true">True</option>
+                <option value="false" selected>False</option>
+            </select>
+        </div>
+        <div class="form-group">
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  ubuntu-autoinstaller:
+    image: jetfuls/ubuntu-autoinstaller:1.0-ubuntu20.04
+    container_name: ubuntu-autoinstaller
+    ports:
+      - "8080:8080"
+    environment:
+      - UAI_PORT=8080
+      - UAI_MODE=release
+      - UAI_VERSION=1.0
+      - STATIC_DIR=/app/static
+    volumes:
+      - /tmp:/tmp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:8080/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    entrypoint: ["/usr/bin/tini", "--"]
+    command: ["./ubuntu-autoinstaller"]
+    restart: unless-stopped

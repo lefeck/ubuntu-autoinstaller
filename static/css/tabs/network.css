@@ -1,0 +1,44 @@
+/* Network tab specific styles */
+.network-interface {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #f8f9fa;
+}
+
+.network-interface .interface-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.interface-name { font-weight: 600; color: #495057; }
+.device-icon { margin-right: 8px; font-size: 1.1em; }
+
+.routes-container {
+    margin-top: 10px;
+    border: 1px solid #e1e5e9;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #f8f9fa;
+}
+
+.route-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.route-item input { flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px; }
+.add-route-btn { background-color: #17a2b8; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+.add-route-btn:hover { background-color: #138496; }
+
+

@@ -1,0 +1,88 @@
+/* Storage tab specific styles */
+.storage-config {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #f8f9fa;
+}
+.storage-config .storage-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.storage-type { font-weight: 600; color: #0d6efd; }
+.storage-config .storage-body.collapsed { display: none; }
+
+/* Improved form-row layout - avoid blank spaces */
+.storage-config .form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: flex-start;
+}
+
+.storage-config .form-group {
+    flex: 1;
+    min-width: 0; /* 允许flex收缩 */
+}
+
+/* Hide empty form-group */
+.storage-config .form-group:empty {
+    display: none;
+}
+
+/* Single field takes full row */
+.storage-config .form-row .form-group[style*="width:100%"] {
+    flex: 1 1 100%;
+}
+
+.disk-match-container { border: 1px solid #e1e5e9; border-radius: 6px; padding: 15px; margin-bottom: 15px; background: #f8f9fa; }
+.disk-match-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; }
+.disk-match-type { width: 150px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+.disk-match-value { flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; min-width: 150px; }
+.add-disk-condition-btn { background-color: #17a2b8; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+.add-disk-condition-btn:hover { background-color: #138496; }
+.remove-disk-match-btn, .remove-disk-btn { background-color: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+.remove-disk-match-btn:hover, .remove-disk-btn:hover { background-color: #c82333; }
+
+/* Styles for required and optional fields */
+.storage-config label .required {
+    color: #dc3545;
+    font-weight: bold;
+    margin-left: 2px;
+}
+
+.storage-config label.optional {
+    color: #6c757d;
+    font-weight: normal;
+}
+
+.storage-config label.optional::after {
+    content: " (optional)";
+    font-size: 12px;
+    color: #9aa0a6;
+    font-style: italic;
+}
+
+/* 必填项输入框边框加强 */
+.storage-config input[required],
+.storage-config select[required] {
+    border-color: #dc3545;
+    border-width: 2px;
+}
+
+.storage-config input[required]:focus,
+.storage-config select[required]:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* 可选项输入框样式 */
+.storage-config input:not([required]),
+.storage-config select:not([required]) {
+    border-color: #ced4da;
+    border-width: 1px;
+}
+
+.storage-config input:not([required]):focus,
+.storage-config select:not([required]):focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}

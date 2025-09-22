@@ -1,0 +1,81 @@
+<div class="form-group">
+    <div class="form-row">
+        <div class="form-group">
+            <label class="optional">GeoIP <span class="hint-icon" data-tooltip="Automatically select mirror by location">?</span></label>
+            <select id="aptGeoIP">
+                <option value="true">True</option>
+                <option value="false">False</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="optional">Preserve Sources List <span class="hint-icon" data-tooltip="Keep existing sources.list instead of replacing">?</span></label>
+            <select id="aptPreserveSources">
+                <option value="true">True</option>
+                <option value="false">False</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="optional">Disable Components <span class="hint-icon" data-tooltip="Select components to disable (multipath, multiuser, networkd, timesyncd, snapd)">?</span></label>
+        <div id="aptDisableComponents" class="checkbox-group">
+            <label class="optional"><input type="checkbox" value="multipath"> multipath</label>
+            <label class="optional"><input type="checkbox" value="multiuser"> multiuser</label>
+            <label class="optional"><input type="checkbox" value="networkd"> networkd</label>
+            <label class="optional"><input type="checkbox" value="timesyncd"> timesyncd</label>
+            <label class="optional"><input type="checkbox" value="snapd"> snapd</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="optional">Disable Suites <span class="hint-icon" data-tooltip="Select or input suites to disable (security, updates, backports, proposed)">?</span></label>
+        <div id="aptDisableSuitesOptions" class="checkbox-group">
+            <label class="optional"><input type="checkbox" value="security"> security</label>
+            <label class="optional"><input type="checkbox" value="updates"> updates</label>
+            <label class="optional"><input type="checkbox" value="backports"> backports</label>
+            <label class="optional"><input type="checkbox" value="proposed"> proposed</label>
+        </div>
+        <div style="margin-top: 10px;">
+            <input type="text" id="aptDisableSuitesInput" placeholder="Custom suite, press Add" />
+            <button type="button" class="add-item-btn" onclick="addDisableSuiteTag()">Add</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Primary Repositories <span class="hint-icon" data-tooltip="Define main APT repositories">?</span></label>
+        <div id="aptPrimaryRepos">
+            <div class="apt-repo-config">
+                <div class="apt-repo-header">
+                    <span class="apt-repo-type">Repository</span>
+                    <button type="button" class="remove-btn" onclick="removeAptRepo(this)">Remove</button>
+                </div>
+                                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="optional">Architectures <span class="hint-icon" data-tooltip="CPU architectures this mirror serves (e.g. amd64,i386)">?</span></label>
+                                <input type="text" class="apt-arches" value="amd64,i386">
+                            </div>
+                            <div class="form-group">
+                                <label class="optional">URI <span class="hint-icon" data-tooltip="Repository base URL (e.g. http://archive.ubuntu.com/ubuntu)">?</span></label>
+                                <input type="text" class="apt-uri" value="http://archive.ubuntu.com/ubuntu">
+                            </div>
+                        </div>
+            </div>
+            <div class="apt-repo-config">
+                <div class="apt-repo-header">
+                    <span class="apt-repo-type">Repository</span>
+                    <button type="button" class="remove-btn" onclick="removeAptRepo(this)">Remove</button>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="optional">Architectures</label>
+                        <input type="text" class="apt-arches" value="default" placeholder="default">
+                    </div>
+                    <div class="form-group">
+                        <label class="optional">URI</label>
+                        <input type="text" class="apt-uri" value="http://ports.ubuntu.com/ubuntu-ports" placeholder="http://ports.ubuntu.com/ubuntu-ports">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="add-item-btn" onclick="addAptRepo()">Add Repository</button>
+    </div>
+</div>
+
+

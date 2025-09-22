@@ -1,0 +1,36 @@
+<div class="form-group">
+    
+    <div class="form-group">
+        <label class="optional">Swap Partition Size <span class="hint-icon" data-tooltip="Swap size in GB. Use -1 to disable swap">?</span></label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <input type="number" id="swapSize" value="0" min="0" step="1" style="flex: 1;">
+            <select id="swapSizeUnit" style="width: 80px;">
+                <option value="B">Bytes</option>
+                <option value="K">KB</option>
+                <option value="M">MB</option>
+                <option value="G" selected>GB</option>
+                <option value="T">TB</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="optional">GRUB UEFI Reorder <span class="hint-icon" data-tooltip="Reorder UEFI boot entries for this OS">?</span></label>
+        <select id="grubReorder">
+            <option value="false">False</option>
+            <option value="true">True</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <!-- <h3>Storage Configurations</h3> -->
+    
+    <div id="storageConfigs">
+        <!-- Storage configurations will be dynamically added here -->
+    </div>
+    
+    <button type="button" class="add-item-btn" onclick="window.StorageManager.addStorageConfig()">Add Storage Configuration</button>
+</div>
+
+
