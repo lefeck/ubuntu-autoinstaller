@@ -57,7 +57,7 @@ The Makefile provides several targets:
 * compose-logs: View the logs of the project using docker-compose.
 
 
-### Docker images
+### Docker images(Recommended)
 
 **Suggestion:**
 
@@ -69,20 +69,20 @@ You can launch a Autouiso container for trying it out with
 
 ```
 # ubuntu-autoinstaller ubuntu 20.04
-docker run -d -p 8080:8080 --name ubuntu-autoinstaller-20.04  jetfuls/ubuntu-autoinstaller:1.0-ubuntu20.04
+docker run -itd -p 8080:8080 --name ubuntu-autoinstaller-20.04  jetfuls/ubuntu-autoinstaller:1.0-ubuntu20.04
 # or
-docker run -d -p 8080:8080 --name ubuntu-autoinstaller-20.04  crpi-g7nxbvns4i9rnvaf.cn-hangzhou.personal.cr.aliyuncs.com/jetfuls/ubuntu-autoinstaller:1.0-ubuntu20.04
+docker run -itd -p 8080:8080 --name ubuntu-autoinstaller-20.04  crpi-g7nxbvns4i9rnvaf.cn-hangzhou.personal.cr.aliyuncs.com/jetfuls/ubuntu-autoinstaller:1.0-ubuntu20.04
 
 # ubuntu-autoinstaller ubuntu 22.04
-docker run -d -p 8080:8080 --name ubuntu-autoinstaller-22.04  jetfuls/ubuntu-autoinstaller:1.0-ubuntu22.04
+docker run -itd -p 8080:8080 --name ubuntu-autoinstaller-22.04  jetfuls/ubuntu-autoinstaller:1.0-ubuntu22.04
 # or
-docker run -d -p 8080:8080 --name ubuntu-autoinstaller-22.04  crpi-g7nxbvns4i9rnvaf.cn-hangzhou.personal.cr.aliyuncs.com/jetfuls/ubuntu-autoinstaller:1.0-ubuntu22.04
+docker run -itd -p 8080:8080 --name ubuntu-autoinstaller-22.04  crpi-g7nxbvns4i9rnvaf.cn-hangzhou.personal.cr.aliyuncs.com/jetfuls/ubuntu-autoinstaller:1.0-ubuntu22.04
 
 
 # ubuntu-autoinstaller ubuntu 24.04
-docker run -d -p 8080:8080 --name ubuntu-autoinstaller-24.04  jetfuls/ubuntu-autoinstaller:1.0-ubuntu24.04
+docker run -itd -p 8080:8080 --name ubuntu-autoinstaller-24.04  jetfuls/ubuntu-autoinstaller:1.0-ubuntu24.04
 # or
-docker run -d -p 8080:8080 --name ubuntu-autoinstaller-24.04  crpi-g7nxbvns4i9rnvaf.cn-hangzhou.personal.cr.aliyuncs.com/jetfuls/ubuntu-autoinstaller:1.0-ubuntu24.04
+docker run -itd -p 8080:8080 --name ubuntu-autoinstaller-24.04  crpi-g7nxbvns4i9rnvaf.cn-hangzhou.personal.cr.aliyuncs.com/jetfuls/ubuntu-autoinstaller:1.0-ubuntu24.04
 ```
 
 
