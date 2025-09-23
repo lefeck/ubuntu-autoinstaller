@@ -340,7 +340,7 @@ func (g *Generator) downloadSigningKey(keyringFile string) error {
 	if _, err := os.Stat(keyringFile); os.IsNotExist(err) {
 		logger.Info("Downloading and saving Ubuntu signing key...")
 		gpgRecvKeyCmdTemplate := fmt.Sprintf(GpgRecvKeyCmdTemplate, keyringFile, UbuntuGPGKeyID)
-		_, _, err := g.executor.RunCmdWithAttempts(gpgRecvKeyCmdTemplate, 3, 5)
+		_, _, err := g.executor.RunCmd(gpgRecvKeyCmdTemplate)
 		if err != nil {
 			logger.Errorf("Failed to download Ubuntu signing key: %v", err)
 			return fmt.Errorf("failed to download Ubuntu signing key: %w", err)
