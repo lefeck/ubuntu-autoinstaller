@@ -3,9 +3,9 @@
 **UbuntuAutoInstaller** is a **web-based Ubuntu Autoinstall ISO generator** built with **Go + Gin**.  
 It supports **cloud-init** automation, real-time validation, and visual configuration of system parameters.
 
-## 📺 Video Tutorial
+## Video Tutorial
 
-🎥 **[Watch the tutorial](https://youtu.be/Z3Pqv76VJcE)** - Learn how to use UbuntuAutoInstaller step by step
+ **[Watch the tutorial](https://youtu.be/Z3Pqv76VJcE)** - Learn how to use UbuntuAutoInstaller step by step
 
 ## Features
 
