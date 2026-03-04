@@ -437,10 +437,12 @@ function collectLVMPartitionConfig(storage, configItem) {
 
 function collectDMCryptConfig(storage, configItem) {
     const volume = storage.querySelector('.storage-volume-input')?.value;
+    const dmName = storage.querySelector('.storage-dm-name-input')?.value;
     const key = storage.querySelector('.storage-key-input')?.value;
     const cipher = storage.querySelector('.storage-cipher-input')?.value;
 
     if (volume) configItem.volume = volume;
+    if (dmName) configItem.dm_name = dmName;
     if (key) configItem.key = key;
     if (cipher) configItem.cipher = cipher;
 }

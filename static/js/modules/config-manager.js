@@ -984,7 +984,7 @@ function buildConfig() {
                         
                         if (cryptId) configItem.id = cryptId;
                         if (cryptVolume) configItem.volume = cryptVolume;
-                        if (dmName) configItem.name = dmName;
+                        if (dmName) configItem.dm_name = dmName;
                         if (key) configItem.key = key;
                         if (keyFile) configItem.keyfile = keyFile;
                         if (cryptPreserve !== undefined) configItem.preserve = cryptPreserve === 'true';

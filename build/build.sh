@@ -3,9 +3,9 @@ set -e
 
 REGISTRY_USER="jetfuls"
 APP_VERSION="1.0"
-#UBUNTU_VERSIONS=( "22.04" "24.04")
+UBUNTU_VERSIONS=( "22.04" "20.04")
 #UBUNTU_VERSIONS=("20.04")
-UBUNTU_VERSIONS=("24.04")
+#UBUNTU_VERSIONS=("24.04")
 #UBUNTU_VERSIONS=("20.04" "22.04" "24.04")
 ALIYUN_REGISTRY="crpi-g7nxbvns4i9rnvaf.cn-hangzhou.personal.cr.aliyuncs.com"
 

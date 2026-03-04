@@ -419,7 +419,7 @@ function getStorageTypeSpecificFields(type, ptable, wipe, match, number, display
                 <!-- Key Configuration (Key and Key File are mutually exclusive) -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="optional">Key <span class="hint-icon" data-tooltip="Encryption key (e.g. secret, cannot be set together with Key File)">?</span></label>
+                        <label class="optional">Key <span class="hint-icon" data-tooltip="Encryption key (default: secret, cannot be set together with Key File)">?</span></label>
                         <input type="password" class="storage-key-input" value="secret" onchange="window.StorageManager.toggleKeyFields(this)">
                     </div>
                     <div class="form-group">

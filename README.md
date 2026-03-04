@@ -182,6 +182,10 @@ Considering that this project is designed for Ubuntu:
 
 - In a Docker environment, it can run on any operating system.
 
+### Documentation
+
+- [DM-Crypt Storage Configuration](docs/dm-crypt-configuration.md) — How to configure full-disk encryption with `key` or `keyfile`
+
 ### FAQ
 
 - **Blank UI / 404?** → Check `STATIC_DIR` path

@@ -42,13 +42,6 @@ func (gen *UserDataGenerator) GenerateFromConfig(cfg *config.Config) ([]byte, er
 	return userData, nil
 }
 
-// GenerateFromTemplate generates user-data from a predefined template (not implemented yet).
-func (gen *UserDataGenerator) GenerateFromTemplate(templateName string, data interface{}) ([]byte, error) {
-	// 这里可以实现从预定义模板生成的功能
-	// 暂时返回错误，表示功能未实现
-	return nil, fmt.Errorf("模板生成功能暂未实现")
-}
-
 // validateConfig validates the provided config.
 func (gen *UserDataGenerator) validateConfig(cfg *config.Config) error {
 	if cfg == nil {
