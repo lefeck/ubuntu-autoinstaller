@@ -275,12 +275,13 @@ type StorageConfig struct {
 
 type DiskMatch struct {
 	Size            string `yaml:"size,omitempty" json:"size,omitempty"`     // e.g. "largest", "smallest", "100G"
-	Name            string `yaml:"name,omitempty" json:"name,omitempty"`     //  e.g. "sda"
+	Name            string `yaml:"name,omitempty" json:"name,omitempty"`     // e.g. "sda"
 	Model           string `yaml:"model,omitempty" json:"model,omitempty"`   // Disk model string (e.g., Samsung SSD 860)
 	Serial          string `yaml:"serial,omitempty" json:"serial,omitempty"` // serial number
 	Path            string `yaml:"path,omitempty" json:"path,omitempty"`     // /dev/disk/by-path/...
 	WWN             string `yaml:"wwn,omitempty" json:"wwn,omitempty"`       // World Wide Name
 	FirmwareVersion string `yaml:"firmware_version,omitempty" json:"firmware_version,omitempty"`
+	SSD             *bool  `yaml:"ssd,omitempty" json:"ssd,omitempty"` // true = match SSD only, false = match non-SSD only
 }
 
 type SwapConfig struct {

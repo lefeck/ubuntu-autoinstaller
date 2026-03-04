@@ -472,11 +472,11 @@ func (h *Handler) buildProcessWithStatus(request *GenerateISORequest, status *Bu
 
 	// Step 1: Preprocessing - Create temporary directory and check packages
 	status.Steps["prepare"] = "running"
-	status.Logs = append(status.Logs, "📁 Preparing temporary directory...")
+	status.Logs = append(status.Logs, "📁 Preparing installation environment...")
 	if err := h.generator.PrepareEnvironment(request.CodeName); err != nil {
 		return fmt.Errorf("preprocessing failed: %w", err)
 	}
-	updateProgress(10, "prepare", "✅ Temporary directory prepared")
+	updateProgress(10, "prepare", "✅ Installation environment ready")
 
 	var localImagePath string
 	var imageMeta *utils.ImageMeta
@@ -550,12 +550,6 @@ func (h *Handler) buildProcessWithStatus(request *GenerateISORequest, status *Bu
 	if len(request.PackageList) > 0 {
 		status.Steps["packages"] = "running"
 		status.Logs = append(status.Logs, "📦 Preparing additional packages...")
-
-		//packageContent := strings.Join(request.PackageList, "\n")
-		//
-		//if err := os.WriteFile(packageFile, []byte(packageContent), 0644); err != nil {
-		//	return fmt.Errorf("failed to create temporary package file: %w", err)
-		//}
 
 		if err := h.generator.PrepareLocalPackagesRepo(request.PackageList); err != nil {
 			return fmt.Errorf("failed to download and prepare packages: %w", err)

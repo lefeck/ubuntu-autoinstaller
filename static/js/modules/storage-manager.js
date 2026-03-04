@@ -210,12 +210,12 @@ function getStorageTypeSpecificFields(type, ptable, wipe, match, number, display
                             <div class="disk-match-row">
                                 <select class="disk-match-type" onchange="window.StorageManager.updateDiskMatchPlaceholder(this)" required>
                                     <option value="size" selected>Size</option>
-                                    <option value="name">Name</option>
                                     <option value="model">Model</option>
                                     <option value="serial">Serial</option>
                                     <option value="path">Path</option>
                                     <option value="wwn">WWN</option>
                                     <option value="firmware_version">Firmware Version</option>
+                                    <option value="ssd">SSD</option>
                                 </select>
                                 <input type="text" class="disk-match-value" value="${match}" placeholder="e.g., largest, smallest, 100G" required>
                                 <button type="button" class="remove-disk-match-btn" onclick="window.StorageManager.removeDiskMatchRow(this)">Remove</button>
@@ -419,7 +419,7 @@ function getStorageTypeSpecificFields(type, ptable, wipe, match, number, display
                 <!-- Key Configuration (Key and Key File are mutually exclusive) -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="optional">Key <span class="hint-icon" data-tooltip="Encryption key (e.g. secret, cannot be set together with Key File)">?</span></label>
+                        <label class="optional">Key <span class="hint-icon" data-tooltip="Encryption key (default: secret, cannot be set together with Key File)">?</span></label>
                         <input type="password" class="storage-key-input" value="secret" onchange="window.StorageManager.toggleKeyFields(this)">
                     </div>
                     <div class="form-group">
@@ -490,12 +490,12 @@ function addDiskMatchRow(button) {
     row.innerHTML = `
         <select class="disk-match-type" onchange="window.StorageManager.updateDiskMatchPlaceholder(this)">
             <option value="size">Size</option>
-            <option value="name">Name</option>
             <option value="model">Model</option>
             <option value="serial">Serial</option>
             <option value="path">Path</option>
             <option value="wwn">WWN</option>
             <option value="firmware_version">Firmware Version</option>
+            <option value="ssd">SSD</option>
         </select>
         <input type="text" class="disk-match-value" placeholder="e.g., largest, smallest, 100G">
         <button type="button" class="remove-disk-match-btn" onclick="window.StorageManager.removeDiskMatchRow(this)">Remove</button>
@@ -515,16 +515,35 @@ function removeDiskMatchRow(button) {
  */
 function updateDiskMatchPlaceholder(select) {
     const input = select.nextElementSibling;
-    const placeholders = {
-        'size': 'e.g., largest, smallest, 100G',
-        'name': 'e.g., sda, nvme0n1',
-        'model': 'e.g., Samsung SSD 860 EVO',
-        'serial': 'e.g., S3Z5NF0M819377K',
-        'path': 'e.g., /dev/disk/by-path/pci-0000:00:17.0-ata-1',
-        'wwn': 'e.g., 0x5000c500a1b2c3d4',
-        'firmware_version': 'e.g., 2.1.0'
-    };
-    input.placeholder = placeholders[select.value] || 'Enter value';
+    const row = select.closest('.disk-match-row');
+
+    if (select.value === 'ssd') {
+        // Replace text input with bool select for ssd
+        if (input.tagName === 'INPUT') {
+            const boolSelect = document.createElement('select');
+            boolSelect.className = 'disk-match-value';
+            boolSelect.innerHTML = '<option value="false" selected>false</option><option value="true">true</option>';
+            input.replaceWith(boolSelect);
+        }
+    } else {
+        // Replace bool select back to text input if needed
+        if (input.tagName === 'SELECT') {
+            const textInput = document.createElement('input');
+            textInput.type = 'text';
+            textInput.className = 'disk-match-value';
+            input.replaceWith(textInput);
+        }
+        const placeholders = {
+            'size': 'e.g., largest, smallest, 100G',
+            'model': 'e.g., Samsung SSD 860 EVO',
+            'serial': 'e.g., S3Z5NF0M819377K',
+            'path': 'e.g., /dev/disk/by-path/pci-0000:00:17.0-ata-1',
+            'wwn': 'e.g., 0x5000c500a1b2c3d4',
+            'firmware_version': 'e.g., 2.1.0'
+        };
+        const currentInput = row.querySelector('.disk-match-value');
+        currentInput.placeholder = placeholders[select.value] || 'Enter value';
+    }
 }
 
 /**

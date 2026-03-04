@@ -365,11 +365,23 @@ function collectDiskConfig(storage, configItem) {
     if (wipe) configItem.wipe = wipe;
     if (preserve !== undefined) configItem.preserve = preserve === 'true';
 
-    // Match conditions
-    const matchType = storage.querySelector('.disk-match-type')?.value;
-    const matchValue = storage.querySelector('.disk-match-value')?.value;
-    if (matchType && matchValue) {
-        configItem.match = { [matchType]: matchValue };
+    // Read all match conditions
+    const matchRows = storage.querySelectorAll('.disk-match-row');
+    if (matchRows.length > 0) {
+        const matchObj = {};
+        matchRows.forEach(row => {
+            const type = row.querySelector('.disk-match-type')?.value;
+            const valueEl = row.querySelector('.disk-match-value');
+            if (type && valueEl) {
+                const raw = valueEl.value;
+                if (raw !== '' && raw !== undefined) {
+                    matchObj[type] = (type === 'ssd') ? (raw === 'true') : raw;
+                }
+            }
+        });
+        if (Object.keys(matchObj).length > 0) {
+            configItem.match = matchObj;
+        }
     }
 }
 
@@ -437,10 +449,12 @@ function collectLVMPartitionConfig(storage, configItem) {
 
 function collectDMCryptConfig(storage, configItem) {
     const volume = storage.querySelector('.storage-volume-input')?.value;
+    const dmName = storage.querySelector('.storage-dm-name-input')?.value;
     const key = storage.querySelector('.storage-key-input')?.value;
     const cipher = storage.querySelector('.storage-cipher-input')?.value;
 
     if (volume) configItem.volume = volume;
+    if (dmName) configItem.dm_name = dmName;
     if (key) configItem.key = key;
     if (cipher) configItem.cipher = cipher;
 }

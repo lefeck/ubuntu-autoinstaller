@@ -80,14 +80,14 @@ type ImageMeta struct {
 	CodeName string
 }
 
-// UbuntuCodenames 用于映射 Ubuntu 主版本到代号
+// Mapping Ubuntu major versions to codenames
 var UbuntuCodenames = map[string]string{
 	"24.04": "noble",
 	"22.04": "jammy",
 	"20.04": "focal",
 }
 
-// getCodename 根据版本返回 Ubuntu 代号，支持 minor 版本匹配
+// getCodename maps an Ubuntu version string to its codename, supporting precise minor version lookups.
 func getCodename(version string) string {
 	for prefix, codename := range UbuntuCodenames {
 		if strings.HasPrefix(version, prefix) {

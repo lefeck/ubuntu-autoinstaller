@@ -1,3 +1,8 @@
+# Global ARGs must be declared before the first FROM to be usable in FROM instructions
+ARG UBUNTU_VERSION=22.04
+ARG APP_VERSION=1.0
+ARG RELEASE_TAG
+
 # -----------------------
 # Build Stage
 # -----------------------
@@ -12,15 +17,12 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ubuntu-autoinstal
 # -----------------------
 # Runtime Stage (Ubuntu)
 # -----------------------
+FROM ubuntu:${UBUNTU_VERSION}
 
-# Version args used for image naming and labels
-ARG UBUNTU_VERSION
-ARG APP_VERSION=1.0.0
+# ARG must be re-declared after FROM to be available inside this stage
+ARG UBUNTU_VERSION=22.04
+ARG APP_VERSION=1.0
 ARG RELEASE_TAG
-
-# Use a default in the FROM line via shell-like fallback (requires BuildKit)
-FROM ubuntu:${UBUNTU_VERSION:-22.04}
-
 
 LABEL org.opencontainers.image.version=${APP_VERSION} \
       org.opencontainers.image.revision=${RELEASE_TAG} \

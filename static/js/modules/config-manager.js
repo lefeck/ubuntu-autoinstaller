@@ -155,14 +155,14 @@ function setDefaultValues(tabName) {
             break;
             
         case 'storage':
-            // Set default values for Storage Configuration
+            // Set default values for Storage Configuration only if not already set
             const swapSize = document.getElementById('swapSize');
             const swapSizeUnit = document.getElementById('swapSizeUnit');
             const grubReorder = document.getElementById('grubReorder');
             
-            if (swapSize) swapSize.value = '0';
-            if (swapSizeUnit) swapSizeUnit.value = 'G';
-            if (grubReorder) grubReorder.value = 'false';
+            if (swapSize && swapSize.value === '') swapSize.value = '0';
+            if (swapSizeUnit && swapSizeUnit.value === '') swapSizeUnit.value = 'G';
+            if (grubReorder && grubReorder.value === '') grubReorder.value = 'false';
             
             // Ensure storage configs container exists and initialize defaults
             const storageConfigs = document.getElementById('storageConfigs');
@@ -418,10 +418,11 @@ function loadAptTab() {
  */
 function loadNetworkTab() {
     loadView('network', '/static/views/network.html', () => {
-        // Initialize network manager if available
+        const container = document.getElementById('network');
+        if (container && container.dataset.initialized) return;
         if (window.NetworkManager && window.NetworkManager.initNetworkDevices) {
-            // Initialize network devices immediately to ensure default template is displayed
             window.NetworkManager.initNetworkDevices();
+            if (container) container.dataset.initialized = 'true';
         }
     });
 }
@@ -431,12 +432,13 @@ function loadNetworkTab() {
  */
 function loadStorageTab() {
     loadView('storage', '/static/views/storage.html', () => {
-        // Initialize storage manager if available
+        const container = document.getElementById('storage');
+        if (container && container.dataset.initialized) return;
         if (window.StorageManager && window.StorageManager.initStorageConfigs) {
             console.log('Initializing storage configs in loadStorageTab callback');
-            // Use setTimeout to ensure DOM is fully loaded before initialization
             setTimeout(() => {
                 window.StorageManager.initStorageConfigs();
+                if (container) container.dataset.initialized = 'true';
                 console.log('Storage configs initialized after timeout');
             }, 100);
         }
@@ -501,12 +503,14 @@ function initializeAllConfigs() {
     
     // Load Storage Configuration tab content and initialize
     loadView('storage', '/static/views/storage.html', () => {
+        const storageContainer = document.getElementById('storage');
+        if (storageContainer && storageContainer.dataset.initialized) return;
         console.log('Storage tab loaded, checking StorageManager...');
         if (window.StorageManager && window.StorageManager.initStorageConfigs) {
             console.log('Initializing storage configs in initializeAllConfigs');
-            // Use setTimeout to ensure DOM is fully ready
             setTimeout(() => {
                 window.StorageManager.initStorageConfigs();
+                if (storageContainer) storageContainer.dataset.initialized = 'true';
             }, 100);
         } else {
             console.error('StorageManager or initStorageConfigs not found in initializeAllConfigs');
@@ -515,9 +519,12 @@ function initializeAllConfigs() {
     
     // Load Network Configuration tab content and initialize
     loadView('network', '/static/views/network.html', () => {
+        const networkContainer = document.getElementById('network');
+        if (networkContainer && networkContainer.dataset.initialized) return;
         if (window.NetworkManager && window.NetworkManager.initNetworkDevices) {
             console.log('Initializing network devices in initializeAllConfigs');
             window.NetworkManager.initNetworkDevices();
+            if (networkContainer) networkContainer.dataset.initialized = 'true';
         }
     });
     
@@ -873,11 +880,23 @@ function buildConfig() {
                         if (wipe) configItem.wipe = wipe;
                         if (preserve !== undefined) configItem.preserve = preserve === 'true';
                         
-                        // Read match conditions
-                        const matchType = storage.querySelector('.disk-match-type')?.value;
-                        const matchValue = storage.querySelector('.disk-match-value')?.value;
-                        if (matchType && matchValue) {
-                            configItem.match = { [matchType]: matchValue };
+                        // Read all match conditions
+                        const matchRows = storage.querySelectorAll('.disk-match-row');
+                        if (matchRows.length > 0) {
+                            const matchObj = {};
+                            matchRows.forEach(row => {
+                                const type = row.querySelector('.disk-match-type')?.value;
+                                const valueEl = row.querySelector('.disk-match-value');
+                                if (type && valueEl) {
+                                    const raw = valueEl.value;
+                                    if (raw !== '' && raw !== undefined) {
+                                        matchObj[type] = (type === 'ssd') ? (raw === 'true') : raw;
+                                    }
+                                }
+                            });
+                            if (Object.keys(matchObj).length > 0) {
+                                configItem.match = matchObj;
+                            }
                         }
                         break;
                         
@@ -984,7 +1003,7 @@ function buildConfig() {
                         
                         if (cryptId) configItem.id = cryptId;
                         if (cryptVolume) configItem.volume = cryptVolume;
-                        if (dmName) configItem.name = dmName;
+                        if (dmName) configItem.dm_name = dmName;
                         if (key) configItem.key = key;
                         if (keyFile) configItem.keyfile = keyFile;
                         if (cryptPreserve !== undefined) configItem.preserve = cryptPreserve === 'true';
